@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستعرض الملفات الذكي</title>
+    <style>
+        /* إعدادات الصفحة الأساسية لتظهر كتطبيق */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* منع التمرير في الصفحة الرئيسية */
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        /* حاوية العرض */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* منطقة عرض الـ PDF */
+        #pdf-viewer {
+            flex-grow: 1; /* تأخذ كل المساحة المتاحة */
+            width: 100%;
+            border: none;
+        }
+
+        /* شريط الأزرار السفلي */
+        .nav-bar {
+            height: 70px;
+            background-color: #2c3e50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 0 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+
+        button {
+            flex: 1;
+            max-width: 200px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            background-color: #34495e;
+            transition: all 0.3s ease;
+        }
+
+        button.active {
+            background-color: #3498db;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        }
+
+        /* رسالة تنبيه للهواتف التي قد تواجه مشكلة */
+        .mobile-note {
+            display: none;
+            position: absolute;
+            top: 0; background: #fff3cd; width: 100%;
+            text-align: center; font-size: 12px; padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <iframe id="pdf-frame" src="1.pdf#toolbar=0" allow="fullscreen"></iframe>
+
+        <div class="nav-bar">
+            <button id="btn1" class="active" onclick="switchPDF('1.pdf', 'btn1')">الملف الأول (1)</button>
+            <button id="btn2" onclick="switchPDF('2.pdf', 'btn2')">الملف الثاني (2)</button>
+        </div>
+    </div>
+
+    <script>
+        function switchPDF(fileName, btnId) {
+            const frame = document.getElementById('pdf-frame');
+            
+            // إضافة وسم toolbar=0 لإخفاء أدوات التحكم وحماية الملف من التحميل المباشر في بعض المتصفحات
+            frame.src = fileName + "#toolbar=0&navpanes=0";
+
+            // تحديث الأزرار
+            document.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(btnId).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
